@@ -1,0 +1,130 @@
+﻿@{
+	Layout = null;
+}
+
+@{
+	// curremt controller
+	string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+
+	// переменные чтобы выставить активность или не активность в кнопках меню
+	string MenuActiveList = controllerName == "Home" ? "active" : "";
+	string MenuActiveReport = controllerName == "Report" ? "active" : "";
+	string MenuActiveChange = controllerName == "TaskManagement" ? "active" : "";
+
+	int ImgVersionToRefresh = 8;
+
+	string TitleName = ViewBag.TitleName;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+	<meta name="viewport" content="width=device-width" />
+	<title>@TitleName</title>
+</head>
+
+<body>
+	<!-- подключаем файлы jQuery -->
+	<script src='@Url.Content("~/Scripts/jquery-3.0.0.min.js")'></script>
+
+	<!-- подключаем файлы Bootstrap -->
+	<link href='@Url.Content("~/Content/bootstrap.min.css")' rel="stylesheet" type="text/css" />
+	<script src='@Url.Content("~/Scripts/bootstrap.min.js")'></script>
+	
+	<!-- HTML элементы -->
+	<div class="container-fluid pl-5 pr-5 pt-2">
+
+		<div class="row">
+
+			<div class="col-md-12 m-0 p-0">
+
+				<!-- верхнее меню1 -->
+				<nav class="navbar navbar-expand-md bg-light navbar-light">
+
+					<ul class="navbar-nav mr-auto">
+						<li class="nav-item text-success">
+							<b>@Html.Label("Планирование дел, задач, занятий")</b>
+						</li>
+					</ul>
+
+					<!-- кнопки в меню "Выйти", "Войти", "Регистрация" -->
+					<!-- Эти кнопки с правой стороны потому что в предыдущем ul стоит class='... mr-auto' -->
+					<ul class="navbar-nav">
+
+						<!-- проверяем пользователь залогинен? -->
+						@if (User.Identity.IsAuthenticated)
+						{
+							<!-- имя пользователя -->
+							<li class="nav-item">
+								<span class="navbar-text">
+									[ @User.Identity.Name ]
+								</span>
+							</li>
+
+							<!-- кнопка 'Выйти' -->
+							<li class="nav-item">
+								<a class="nav-link" href='@Url.Action("Logoff", "Authentication")'> Выйти... </a>
+							</li>
+						}
+
+						else
+						{
+							<!-- кнопка 'Войти' -->
+							<li class="nav-item">
+								<a class="nav-link" href='@Url.Action("Login", "Authentication")'> Войти... </a>
+							</li>
+
+							<!-- мой разделитель -->
+							<li class="nav-item">
+								<span class="navbar-text">
+									|
+								</span>
+							</li>
+
+							<!-- Регистрация -->
+							<li class="nav-item">
+								<a class="nav-link" href='@Url.Action("Register", "Authentication")'> Регистрация... </a>
+							</li>
+						}
+					</ul>
+				</nav>
+			</div>
+		</div>
+		<div class="row" style="min-height:300px;">
+
+			<div class="col-md-12 pl-0 pr-0" style="border:3px solid gray; background-repeat:repeat-y; background-image:url(@Url.Content("~/Content/Images/PageBorder.png?version=" + ImgVersionToRefresh));">
+
+				<!-- верхнее меню2 -->
+				<nav class="navbar navbar-expand-lg bg-info navbar-info">
+
+					<!-- кнопки в меню "Список дел", "Отчеты", "Управление" -->
+					<ul class="navbar-nav">
+						<!-- кнопка "Список дел" -->
+						<li class="nav-item ml-5">
+							<a class="btn btn-info @MenuActiveList" href='@Url.Action("Index", "Home")'>Список</a>
+						</li>
+
+						<!-- кнопка "Отчеты" -->
+						<li class="nav-item ml-5">
+							<a class="btn btn-info @MenuActiveReport" href='@Url.Action("Index", "Report")'>Отчеты</a>
+						</li>
+
+						<!-- кнопка "Управление" -->
+						<li class="nav-item ml-5">
+							<a class="btn btn-info @MenuActiveChange" href='@Url.Action("Index", "TaskManagement")'>Управление</a>
+						</li>
+					</ul>
+				</nav>
+
+				<!-- тут вставится содержимое обычного представления -->
+				<div style="padding-left:60px; padding-top:20px; padding-right:20px; padding-bottom:50px;">
+					@RenderBody()
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+</body>
+</html>

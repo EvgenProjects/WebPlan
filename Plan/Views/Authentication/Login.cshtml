@@ -1,0 +1,59 @@
+﻿@model Plan.Models.UserLogin
+
+<!DOCTYPE html>
+
+<html>
+<head>
+	<meta name="viewport" content="width=device-width" />
+	<title>Вход</title>
+</head>
+
+<body>
+
+	<!-- подключаем файлы jQuery -->
+	<script src='@Url.Content("~/Scripts/jquery-3.0.0.min.js")'></script>
+
+	<!-- подключаем файлы Bootstrap -->
+	<link href='@Url.Content("~/Content/bootstrap.min.css")' rel="stylesheet" type="text/css" />
+	<script src='@Url.Content("~/Scripts/bootstrap.min.js")'></script>
+
+	<!-- навигационный маршрут -->
+	<ol class="breadcrumb bg-light">
+		<li class="breadcrumb-item"><a href='@Url.Action("Index", "Home")'>Планирование дел, задач, занятий...</a></li>
+		<li class="breadcrumb-item active">Вход</li>
+	</ol>
+
+	@using (Html.BeginForm())
+	{
+		@Html.AntiForgeryToken()
+
+		<div class="pl-4">
+			@Html.ValidationSummary(true)
+
+			<!-- login -->
+			<div class="form-group">
+				@Html.LabelFor(model => model.Name, new { @class = "control-label" })
+				<div>
+					@Html.EditorFor(model => model.Name, new { @class = "form-control" })
+					@Html.ValidationMessageFor(model => model.Name)
+				</div>
+			</div>
+
+			<!-- password -->
+			<div class="form-group">
+				@Html.LabelFor(model => model.Password, new { @class = "control-label" })
+				<div>
+					@Html.EditorFor(model => model.Password, new { @class = "form-control" })
+					@Html.ValidationMessageFor(model => model.Password)
+				</div>
+			</div>
+
+			<!-- Войти -->
+			<div class="form-group">
+				<input type="submit" value="Войти" class="btn btn-info" />
+			</div>
+		</div>
+	}
+
+</body>
+</html>

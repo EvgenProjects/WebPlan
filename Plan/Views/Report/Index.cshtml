@@ -1,0 +1,40 @@
+﻿@model Plan.Models.Task
+
+@{
+	ViewBag.TitleName = "Отчеты по занятиям";
+	Layout = "~/Views/MasterTemplate.cshtml";
+}
+
+<script>
+	function JSChangeDate()
+	{
+		var dateFromElem = $('#dateElem').val();
+
+		$.ajax(
+		{
+			type: "GET",
+			url: '@Url.Action("GetTasksInReportByDate", "Report")',
+			data: {
+				'date': dateFromElem,
+			},
+			success: function(msg)
+			{
+				$('#my_content').html(msg);
+			}
+		});
+	}
+
+	// страница прогрузилась
+	$(function ()
+	{
+		JSChangeDate();
+	});
+</script>
+
+<div class="form-inline pb-3">
+	<b>@Html.Label("Отчет по Дате (день)", htmlAttributes: new { @class = "control-label  pr-3" })</b>
+	@Html.EditorFor(item => Model.StartDate, new { htmlAttributes = new { @class = "form-control", @onchange = "JSChangeDate();", @onclick = "JSChangeDate();", @id = "dateElem" } })
+</div>
+
+<div id="my_content">
+</div>

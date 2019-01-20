@@ -1,0 +1,30 @@
+﻿@model IEnumerable<Plan.Models.Task>
+
+<table class="table table-striped" style="width:70%">
+	<tr>
+		<td>
+			@Html.DisplayNameFor(model => model.Name)
+		</td>
+		<td>
+			@Html.DisplayNameFor(model => model.StartTime)
+		</td>
+		<td>
+			@Html.DisplayNameFor(model => model.EndTime)
+		</td>
+	</tr>
+	
+	@foreach (var item in Model)
+	{
+		<tr>
+			<td>
+				@Html.DisplayFor(modelItem => item.Name)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.StartTime)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.EndTime)
+			</td>
+		</tr>
+	}
+</table>
